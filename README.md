@@ -1,5 +1,10 @@
 # REZERV — Smart Backup Utility for Developers
 
+<p align="center">
+  <img src="./assets/screenshot1.png" alt="REZERV Main Screen" width="48%" />
+  <img src="./assets/screenshot2.png" alt="REZERV Exclusions Screen" width="48%" />
+</p>
+
 **REZERV** is a modern, cross-platform desktop application built using Go and Wails. It allows developers to quickly compress their workspace folders into ZIP archives and either upload them to Google Drive or save them to a local directory with a single click.
 
 The application features a premium **Glassmorphism** dark/light UI with smooth micro-animations, multi-language support (RU/EN), and background tray operations.
