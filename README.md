@@ -85,3 +85,17 @@ Since Wails uses native system webviews and Go's CGO, cross-compilation is not s
 wails dev
 ```
 In development mode, changes to Go code, HTML, CSS, or JS will immediately compile and hot-reload the running application.
+
+---
+
+## ☕ Support the Project (Donate)
+
+If you find REZERV useful and want to support its active development:
+> **Buy me a coffee so I can work better!** 😉
+
+*   **Network**: TON (The Open Network)
+*   **Wallet Address**: `UQCokVwXO910FplcmvbmFmozJwmfhfmU_5YsBdfBfYntJJAd`
+
+<p align="left">
+  <img src="./assets/qr.PNG" alt="TON QR Code" width="180" />
+</p>
