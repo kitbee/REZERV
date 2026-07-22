@@ -93,6 +93,7 @@ wails dev
 Если вам понравилось приложение REZERV и вы хотите поддержать его развитие:
 > **Купите мне кофе, и я буду работать лучше!** 😉
 
+*   **Валюта**: USDT (Tether)
 *   **Сеть**: TON (The Open Network)
 *   **Адрес кошелька**: `UQCokVwXO910FplcmvbmFmozJwmfhfmU_5YsBdfBfYntJJAd`
 

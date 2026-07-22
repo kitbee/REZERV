@@ -93,6 +93,7 @@ In development mode, changes to Go code, HTML, CSS, or JS will immediately compi
 If you find REZERV useful and want to support its active development:
 > **Buy me a coffee so I can work better!** 😉
 
+*   **Currency**: USDT (Tether)
 *   **Network**: TON (The Open Network)
 *   **Wallet Address**: `UQCokVwXO910FplcmvbmFmozJwmfhfmU_5YsBdfBfYntJJAd`
 
