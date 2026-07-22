@@ -98,5 +98,5 @@ wails dev
 *   **Адрес кошелька**: `UQAWCYBzl-C1ZWHvSwY1GSsZ6SxKtiXqtd_HNZ2xItz935zD`
 
 <p align="left">
-  <img src="./assets/qr_v3.PNG" alt="TON QR Code" width="180" />
+  <img src="./assets/qr_v6.png" alt="TON QR Code" width="180" />
 </p>
