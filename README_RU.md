@@ -1,8 +1,8 @@
 # REZERV — Умная утилита резервного копирования для разработчиков
 
 <p align="center">
-  <img src="./assets/screenshot_v4_1.png" alt="REZERV Main Screen" width="48%" />
-  <img src="./assets/screenshot_v4_2.png" alt="REZERV Exclusions Screen" width="48%" />
+  <img src="./assets/screenshot_v5_1.png" alt="REZERV Main Screen" width="48%" />
+  <img src="./assets/screenshot_v5_2.png" alt="REZERV Exclusions Screen" width="48%" />
 </p>
 
 **REZERV** — это современное кросс-платформенное десктопное приложение, разработанное на Go и Wails. Утилита позволяет быстро создавать архивы ваших рабочих проектов и выгружать их в облако Google Drive или сохранять на локальный диск в один клик.
