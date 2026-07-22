@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>REZERV TOOL v6</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="logo-icon">⚡</span>
+                <div class="brand-text">
+                    <h1 class="logo-title">REZERV</h1>
+                    <span class="logo-subtitle">Backup Tool v6</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-item active" data-tab="backup-cloud" id="btn-nav-backup-cloud" data-i18n="nav-backup-cloud">
+                    <span class="nav-icon">☁️</span>
+                    <span class="nav-label">Резерв в облако</span>
+                </button>
+                <button class="nav-item" data-tab="backup-local" id="btn-nav-backup-local" data-i18n="nav-backup-local">
+                    <span class="nav-icon">💻</span>
+                    <span class="nav-label">Локальный бэкап</span>
+                </button>
+                <button class="nav-item" data-tab="restore" id="btn-nav-restore" data-i18n="nav-restore">
+                    <span class="nav-icon">🔄</span>
+                    <span class="nav-label">Восстановление</span>
+                </button>
+                <button class="nav-item" data-tab="exclusions" id="btn-nav-exclusions" data-i18n="nav-exclusions">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-label">Исключения</span>
+                </button>
+                <button class="nav-item" data-tab="help" id="btn-nav-help" data-i18n="nav-help">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-label">Помощь</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="project-info-badge">
+                    <div class="badge-label" data-i18n="badge-label">Активный проект</div>
+                    <div class="badge-value" id="badge-project-name">Loading...</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-path">
+                    <span class="path-label" data-i18n="path-label">Путь к проекту:</span>
+                    <span class="path-value" id="header-project-path">Loading...</span>
+                </div>
+                <div class="header-actions">
+                    <!-- Cloud Storage Quota -->
+                    <div class="header-quota" id="header-quota-container" style="display: none;">
+                        <div class="quota-text-row">
+                            <span class="quota-label" data-i18n="quota-label">Облако:</span>
+                            <span class="quota-value" id="quota-value-text">-- / --</span>
+                        </div>
+                        <div class="quota-bar-container">
+                            <div class="quota-bar-fill" id="quota-bar-fill"></div>
+                        </div>
+                    </div>
+                    <!-- Language selector -->
+                    <div class="lang-selector-group">
+                        <button class="lang-toggle" id="btn-lang-toggle">
+                            <span class="lang-text">RU</span>
+                            <span class="lang-arrow">◀</span>
+                        </button>
+                        <div class="lang-dropdown" id="lang-dropdown-menu">
+                            <button class="lang-option" data-value="ru">RU</button>
+                            <button class="lang-option" data-value="en">EN</button>
+                        </div>
+                    </div>
+                    <button class="theme-toggle" id="btn-theme-toggle" title="Toggle Theme">
+                        <span class="theme-icon">☀️</span>
+                        <span class="theme-text" data-i18n="theme-text-light">СВЕТЛАЯ</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Scrollable Content Area -->
+            <div class="content-scroll">
+                <!-- Warning Banner -->
+                <div class="auth-warning-banner" id="cloud-auth-banner" style="display: none;">
+                    <div class="banner-content">
+                        <span class="banner-icon">⚠️</span>
+                        <div class="banner-text-group">
+                            <h4 class="banner-title" data-i18n="auth-warning-title">Google Drive не авторизован</h4>
+                            <p class="banner-desc" data-i18n="auth-warning-desc">Привяжите аккаунт Google для работы с облачными функциями.</p>
+                        </div>
+                    </div>
+                    <button class="action-btn primary-btn" id="btn-authorize-cloud" style="box-shadow: none; padding: 8px 16px; font-size: 13px; border-radius: 8px;">
+                        <span class="btn-text" data-i18n="btn-authorize">Авторизовать</span>
+                    </button>
+                </div>
+
+                <!-- TAB: Backup (Cloud & Local) -->
+                <section class="tab-content active" id="tab-backup">
+                    <div class="tab-header">
+                        <div class="tab-header-text">
+                            <h2 class="tab-title" id="backup-title" data-i18n="backup-title-cloud">Резерв в облако</h2>
+                            <p class="tab-subtitle" id="backup-subtitle" data-i18n="backup-subtitle-cloud">Создать сжатый ZIP-архив и загрузить его в Google Drive</p>
+                        </div>
+                        <div class="tab-header-actions">
+                            <div class="control-group" id="compression-control">
+                                <label for="select-compression" data-i18n="label-compression">Сжатие</label>
+                                <select id="select-compression" class="styled-select">
+                                    <option value="Optimal">Optimal</option>
+                                    <option value="Fast">Fastest</option>
+                                    <option value="None">None</option>
+                                </select>
+                            </div>
+                            <button class="action-btn primary-btn" id="btn-start-backup">
+                                <span class="btn-icon">▶️</span>
+                                <span class="btn-text" data-i18n="btn-start-backup-cloud">НАЧАТЬ ЗАГРУЗКУ</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Progress Card -->
+                    <div class="status-card glass-card">
+                        <div class="card-details">
+                            <div class="card-text-group">
+                                <div class="card-line-main" id="card-line1" data-i18n="status-ready">Готов к работе</div>
+                                <div class="card-line-sub" id="card-line2" data-i18n="status-ready-desc">Настройте параметры и нажмите Старт</div>
+                            </div>
+                            <span class="status-badge" id="status-badge" data-i18n="status-badge-idle">Ожидание</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="backup-progress" style="width: 0%;"></div>
+                        </div>
+                        <div class="progress-footer">
+                            <span class="progress-percentage" id="progress-text">0%</span>
+                            <span class="progress-task" id="status-text" data-i18n="progress-waiting">Ожидание запуска...</span>
+                        </div>
+                    </div>
+
+                    <!-- Console Logs -->
+                    <div class="console-wrapper">
+                        <div class="console-header">
+                            <span class="console-title" data-i18n="console-title">Логи выполнения</span>
+                            <button class="console-clear-btn" id="btn-clear-logs" data-i18n="btn-clear-logs">Очистить логи</button>
+                        </div>
+                        <div class="console-body" id="log-box">
+                            <div class="log-line log-dim">[11:00:00] REZERV TOOL v6 initialized. Ready for backup operations.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: Restore -->
+                <section class="tab-content" id="tab-restore">
+                    <div class="tab-header">
+                        <div class="tab-header-text">
+                            <h2 class="tab-title" data-i18n="restore-title">Восстановление проекта</h2>
+                            <p class="tab-subtitle" data-i18n="restore-subtitle">Скачать и восстановить проект из бэкапов в Google Drive</p>
+                        </div>
+                        <div class="tab-header-actions">
+                            <button class="action-btn secondary-btn" id="btn-fetch-cloud">
+                                <span class="btn-icon">🔄</span>
+                                <span class="btn-text" data-i18n="btn-fetch-projects">Загрузить проекты</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Project Selection -->
+                    <div class="restore-steps-grid">
+                        <div class="step-card glass-card" id="restore-project-step">
+                            <div class="step-badge">1</div>
+                            <h3 class="step-title" data-i18n="step1-title">1. Выберите папку проекта</h3>
+                            <p class="step-desc" data-i18n="step1-desc">Выберите облачную папку для просмотра бэкапов</p>
+                            <div class="list-wrapper">
+                                <ul class="cloud-list" id="cloud-projects-list">
+                                    <li class="list-loading">No folders loaded. Click Fetch.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Backup Selection -->
+                        <div class="step-card glass-card disabled" id="restore-backup-step">
+                            <div class="step-badge">2</div>
+                            <h3 class="step-title" data-i18n="step2-title">2. Выберите архив бэкапа</h3>
+                            <p class="step-desc" data-i18n="step2-desc">Выберите конкретный ZIP-архив для восстановления</p>
+                            <div class="list-wrapper">
+                                <ul class="cloud-list" id="cloud-backups-list">
+                                    <li class="list-loading">Select a folder first.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Actions Card -->
+                    <div class="restore-actions-card glass-card disabled" id="restore-actions-card">
+                        <div class="selected-summary">
+                            <span class="selected-label" data-i18n="restore-selected-label">Выбранный бэкап:</span>
+                            <span class="selected-value" id="selected-backup-name">None</span>
+                        </div>
+                        <div class="action-buttons-row">
+                            <button class="action-btn primary-btn" id="btn-restore-full">
+                                <span class="btn-icon">⚡</span>
+                                <span class="btn-text" data-i18n="btn-restore-full">ПОЛНОЕ ВОССТАНОВЛЕНИЕ (С перезаписью)</span>
+                            </button>
+                            <button class="action-btn secondary-btn" id="btn-restore-download">
+                                <span class="btn-icon">⬇️</span>
+                                <span class="btn-text" data-i18n="btn-restore-download">ТОЛЬКО СКАЧАТЬ</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: Exclusions -->
+                <section class="tab-content" id="tab-exclusions">
+                    <div class="tab-header">
+                        <div class="tab-header-text">
+                            <h2 class="tab-title" data-i18n="exclusions-title">Редактор исключений</h2>
+                            <p class="tab-subtitle" data-i18n="exclusions-subtitle">Настройте файлы и папки, которые будут игнорироваться при копировании</p>
+                        </div>
+                        <div class="tab-header-actions">
+                            <button class="action-btn secondary-btn" id="btn-exclusions-reset">
+                                <span class="btn-icon">↩️</span>
+                                <span class="btn-text" data-i18n="btn-exclusions-reset">Сбросить по умолчанию</span>
+                            </button>
+                            <button class="action-btn primary-btn" id="btn-exclusions-save">
+                                <span class="btn-icon">💾</span>
+                                <span class="btn-text" data-i18n="btn-exclusions-save">СОХРАНИТЬ ИЗМЕНЕНИЯ</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exclusions-grid">
+                        <!-- Folders Card -->
+                        <div class="exclusion-card glass-card">
+                            <h3 class="card-section-title" data-i18n="exclusions-folders-title">Игнорируемые папки</h3>
+                            <p class="card-section-desc" data-i18n="exclusions-folders-desc">Эти директории будут пропущены при резервном копировании</p>
+                            <div class="exclusion-list-container">
+                                <ul class="pattern-list" id="folders-exclusions-list">
+                                    <!-- Dynamic list -->
+                                </ul>
+                            </div>
+                            <div class="exclusion-input-row">
+                                <input type="text" id="input-new-folder" placeholder="Например, temp_cache" data-i18n="input-new-folder" class="styled-input"/>
+                                <button class="add-pattern-btn" id="btn-add-folder">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Files Card -->
+                        <div class="exclusion-card glass-card">
+                            <h3 class="card-section-title" data-i18n="exclusions-files-title">Игнорируемые файлы</h3>
+                            <p class="card-section-desc" data-i18n="exclusions-files-desc">Имена файлов или маски (wildcards), которые будут исключены</p>
+                            <div class="exclusion-list-container">
+                                <ul class="pattern-list" id="files-exclusions-list">
+                                    <!-- Dynamic list -->
+                                </ul>
+                            </div>
+                            <div class="exclusion-input-row">
+                                <input type="text" id="input-new-file" placeholder="Например, *.log.bak" data-i18n="input-new-file" class="styled-input"/>
+                                <button class="add-pattern-btn" id="btn-add-file">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Retention Policy Card -->
+                    <div class="retention-card glass-card" style="margin-top: 24px;">
+                        <div class="retention-header">
+                            <div class="retention-info">
+                                <h3 class="card-section-title" data-i18n="retention-title">Автоочистка старых бэкапов (Ротация)</h3>
+                                <p class="card-section-desc" data-i18n="retention-desc">Автоматическое удаление старых архивов при превышении лимита</p>
+                            </div>
+                            <div class="retention-control-row">
+                                <label class="switch-container">
+                                    <input type="checkbox" id="check-retention-enable">
+                                    <span class="switch-slider"></span>
+                                </label>
+                                <span class="switch-label" id="retention-status-label" data-i18n="retention-disabled">Отключено</span>
+                            </div>
+                        </div>
+                        <div class="retention-settings-body" id="retention-settings-panel" style="display: none;">
+                            <div class="retention-input-group">
+                                <label for="input-retention-limit" data-i18n="retention-limit-label">Хранить не более (копий):</label>
+                                <input type="number" id="input-retention-limit" min="1" max="100" value="10" class="styled-input" style="max-width: 100px; text-align: center;"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Network Settings Card -->
+                    <div class="retention-card glass-card" style="margin-top: 24px;">
+                        <div class="retention-header">
+                            <div class="retention-info">
+                                <h3 class="card-section-title" data-i18n="network-settings-title">Сетевые настройки загрузки</h3>
+                                <p class="card-section-desc" data-i18n="network-settings-desc">Управление скоростью отдачи и многопоточностью при отправке в облако</p>
+                            </div>
+                        </div>
+                        <div class="network-settings-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px;">
+                            <div class="control-group">
+                                <label for="select-bwlimit" data-i18n="label-bwlimit">Ограничение скорости отдачи</label>
+                                <select id="select-bwlimit" class="styled-select" style="width: 100%;">
+                                    <option value="off" data-i18n="bwlimit-off">Без ограничений</option>
+                                    <option value="1M">1 MB/s (8 Mbps)</option>
+                                    <option value="2M">2 MB/s (16 Mbps)</option>
+                                    <option value="5M">5 MB/s (40 Mbps)</option>
+                                    <option value="10M">10 MB/s (80 Mbps)</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <label for="select-transfers" data-i18n="label-transfers">Параллельные потоки загрузки (--transfers)</label>
+                                <select id="select-transfers" class="styled-select" style="width: 100%;">
+                                    <option value="1">1 поток (Самый стабильный)</option>
+                                    <option value="2">2 потока</option>
+                                    <option value="4">4 потока (Рекомендуется)</option>
+                                    <option value="6">6 потоков</option>
+                                    <option value="8">8 потоков (Максимальная скорость)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB: Help -->
+                <section class="tab-content" id="tab-help">
+                    <div class="tab-header">
+                        <div class="tab-header-text">
+                            <h2 class="tab-title" data-i18n="help-title">Помощь и руководство</h2>
+                            <p class="tab-subtitle" data-i18n="help-subtitle">Подробное описание функций резервного копирования</p>
+                        </div>
+                    </div>
+
+                    <div class="help-grid">
+                        <!-- Instructions Card -->
+                        <div class="help-card glass-card">
+                            <h3 class="help-card-title" data-i18n="help-sec-features">Основные функции</h3>
+                            <div class="help-section-content">
+                                <div class="help-feature-item">
+                                    <span class="feature-icon">☁️</span>
+                                    <div class="feature-desc">
+                                        <h4 data-i18n="help-feat-cloud-title">Cloud Backup (Бэкап в облако)</h4>
+                                        <p data-i18n="help-feat-cloud-desc">Копирует файлы проекта (исключая папки из вкладки Exclusions), упаковывает их в ZIP-архив с выбранным уровнем сжатия и выгружает в Google Drive (в папку backups/имя_проекта).</p>
+                                    </div>
+                                </div>
+                                <div class="help-feature-item">
+                                    <span class="feature-icon">💻</span>
+                                    <div class="feature-desc">
+                                        <h4 data-i18n="help-feat-local-title">Local Only (Локальный бэкап)</h4>
+                                        <p data-i18n="help-feat-local-desc">Создает архив проекта на жестком диске в папке «резерв_имя_проекта» на том же уровне диска, где лежит проект, но не отправляет в облако. Не требует интернета.</p>
+                                    </div>
+                                </div>
+                                <div class="help-feature-item">
+                                    <span class="feature-icon">🔄</span>
+                                    <div class="feature-desc">
+                                        <h4 data-i18n="help-feat-restore-title">Restore (Восстановление)</h4>
+                                        <p data-i18n="help-feat-restore-desc">Запрашивает из облака список бэкапов. «ПОЛНОЕ ВОССТАНОВЛЕНИЕ» скачивает архив и перезаписывает файлы проекта. «ТОЛЬКО СКАЧАТЬ» просто скачивает архив в корень и открывает его в Проводнике.</p>
+                                    </div>
+                                </div>
+                                <div class="help-feature-item">
+                                    <span class="feature-icon">⚙️</span>
+                                    <div class="feature-desc">
+                                        <h4 data-i18n="help-feat-exclusions-title">Exclusions (Исключения)</h4>
+                                        <p data-i18n="help-feat-exclusions-desc">Список папок (например, node_modules) и файлов, которые будут пропущены. Это уменьшает размер бэкапа в несколько раз.</p>
+                                    </div>
+                                </div>
+                                <div class="help-feature-item">
+                                    <span class="feature-icon">📊</span>
+                                    <div class="feature-desc">
+                                        <h4 data-i18n="help-feat-retention-title">Ротация и квота диска</h4>
+                                        <p data-i18n="help-feat-retention-desc">Контроль заполнения Google Drive с помощью виджета в шапке. Автоматическое удаление старых бэкапов при превышении лимита.</p>
+                                    </div>
+                                </div>
+                                <div class="help-feature-item">
+                                    <span class="feature-icon">⚡</span>
+                                    <div class="feature-desc">
+                                        <h4 data-i18n="help-feat-network-title">Сетевые лимиты и потоки</h4>
+                                        <p data-i18n="help-feat-network-desc">Гибкая настройка скорости отдачи (--bwlimit) и количества параллельных потоков загрузки (--transfers) для экономии вашего интернет-трафика.</p>
+                                    </div>
+                                </div>
+                                <div class="help-feature-item">
+                                    <span class="feature-icon">📥</span>
+                                    <div class="feature-desc">
+                                        <h4 data-i18n="help-feat-ux-title">Трей-агент и Drag-and-Drop</h4>
+                                        <p data-i18n="help-feat-ux-desc">Работа в фоновом режиме в системном трее Windows. Быстрое переключение проекта путем обычного перетаскивания папки из проводника в окно.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CSS Drawings / Visual Guide Card -->
+                        <div class="help-card glass-card">
+                            <h3 class="help-card-title" data-i18n="help-sec-visual">Визуальный гид</h3>
+                            <p class="help-card-desc" data-i18n="help-sec-visual-desc">Стилизованные схемы элементов интерфейса:</p>
+                            
+                            <div class="mockups-container">
+                                <!-- Mockup 1: Status Card -->
+                                <div class="mockup-item">
+                                    <div class="mockup-label" data-i18n="mockup-status-title">Карточка процесса бэкапа:</div>
+                                    <div class="mini-status-card">
+                                        <div class="mini-card-details">
+                                            <div class="mini-text-group">
+                                                <div class="mini-line-main">backup_120326_1530.zip</div>
+                                                <div class="mini-line-sub">Size: 4.82 MB | Mode: Optimal</div>
+                                            </div>
+                                            <span class="mini-badge" data-i18n="status-badge-working">В процессе</span>
+                                        </div>
+                                        <div class="mini-progress-container">
+                                            <div class="mini-progress-fill"></div>
+                                        </div>
+                                        <div class="mini-progress-footer">
+                                            <span>60%</span>
+                                            <span data-i18n="log-upload-start">Выгрузка в Google Drive...</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Mockup 2: Exclusions Input -->
+                                <div class="mockup-item">
+                                    <div class="mockup-label" data-i18n="mockup-exclusions-title">Редактирование правил:</div>
+                                    <div class="mini-exclusions-card">
+                                        <ul class="mini-pattern-list">
+                                            <li><span>node_modules</span><span class="mini-remove">×</span></li>
+                                            <li><span>.git</span><span class="mini-remove">×</span></li>
+                                        </ul>
+                                        <div class="mini-input-row">
+                                            <div class="mini-input" data-i18n="input-new-folder">Например, temp_cache</div>
+                                            <div class="mini-btn-add">+</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Drag and Drop Overlay -->
+    <div id="drag-overlay" class="drag-overlay">
+        <div class="drag-overlay-content">
+            <div class="drag-overlay-icon">📁</div>
+            <h2 data-i18n="drag-overlay-title">Перетащите папку проекта сюда</h2>
+            <p data-i18n="drag-overlay-desc">Путь проекта автоматически переключится на эту папку</p>
+        </div>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>
