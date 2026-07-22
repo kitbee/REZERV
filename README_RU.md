@@ -95,8 +95,8 @@ wails dev
 
 *   **Валюта**: USDT (Tether)
 *   **Сеть**: TON (The Open Network)
-*   **Адрес кошелька**: `UQCokVwXO910FplcmvbmFmozJwmfhfmU_5YsBdfBfYntJJAd`
+*   **Адрес кошелька**: `UQAWCYBzl-C1ZWHvSwY1GSsZ6SxKtiXqtd_HNZ2xItz935zD`
 
 <p align="left">
-  <img src="./assets/qr.PNG" alt="TON QR Code" width="180" />
+  <img src="./assets/qr_v2.PNG" alt="TON QR Code" width="180" />
 </p>

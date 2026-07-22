@@ -95,8 +95,8 @@ If you find REZERV useful and want to support its active development:
 
 *   **Currency**: USDT (Tether)
 *   **Network**: TON (The Open Network)
-*   **Wallet Address**: `UQCokVwXO910FplcmvbmFmozJwmfhfmU_5YsBdfBfYntJJAd`
+*   **Wallet Address**: `UQAWCYBzl-C1ZWHvSwY1GSsZ6SxKtiXqtd_HNZ2xItz935zD`
 
 <p align="left">
-  <img src="./assets/qr.PNG" alt="TON QR Code" width="180" />
+  <img src="./assets/qr_v2.PNG" alt="TON QR Code" width="180" />
 </p>
